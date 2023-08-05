@@ -24,6 +24,7 @@ class SocialiteController extends Controller
                 return redirect('/');
             } else {
                 $newUser = User::create([
+                    'id' => fake()->unique()->uuid(),
                     'name' => $user->name,
                     'username' => str_replace(' ', '', $user->name),
                     'email' => $user->email,
@@ -31,9 +32,10 @@ class SocialiteController extends Controller
                     'google_id' => $user->id,
                     'social_type' => 'google'
                 ]); 
-
+                
                 Profile::create([
                     'id' => fake()->unique()->uuid(),
+                    'user_id' => $newUser->id,
                     'image' => $user->getAvatar()
                 ]);
 
