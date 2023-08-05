@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('post_categories', function (Blueprint $table) {
             $table->id();
+            $table->foreignUuid('post_id');
+            $table->foreignUuid('category_id');
             $table->timestamps();
         });
     }

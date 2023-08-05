@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->uuid('id');
             $table->foreignUuid('user_id');
-            $table->foreignUuid('category_id');
+            // $table->foreignUuid('category_id');
             $table->text('body');
             $table->string('title',255);
             $table->timestamps();
