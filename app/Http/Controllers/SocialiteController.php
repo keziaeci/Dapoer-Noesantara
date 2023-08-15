@@ -40,7 +40,7 @@ class SocialiteController extends Controller
                 ]);
 
                 Auth::login($newUser);
-                return redirect('/');
+                return redirect()->route('post-homepage');
             }    
         } catch (\Throwable $th) {
             throw $th;

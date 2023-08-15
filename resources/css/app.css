@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+:root {
+    background:  #d1d5db;
+}
+
+.ck.ck-editor__editable_inline {
+    padding: 0px 30px;
+}
+
+::selection {
+    background: pink;
+    color: black;
+}

@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Traits\Uuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -55,4 +56,7 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
+    function profile() : HasOne {
+        return $this->hasOne(Profile::class);
+    }
 }

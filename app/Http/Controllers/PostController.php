@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use App\Models\Category;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -13,7 +16,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        return view('pages.posts.index', [
+            // 'user' => Auth::user()   
+        ]);
     }
 
     /**
@@ -21,7 +26,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.posts.create', [
+            'categories' => Category::all()
+        ]);
     }
 
     /**
@@ -29,7 +36,7 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        //
+        dd($request);
     }
 
     /**
@@ -62,5 +69,21 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
         //
+    }
+
+    function ckimageUploader(Request $request)  {
+        // dd($request);
+        if ($request->hasFile('upload')) {
+            $originName = $request->file('upload')->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $request->file('upload')->getClientOriginalExtension();
+            $fileName = $fileName . '_' . time() . '.' . $extension;
+            $request->file('upload')->storePubliclyAs('media',$fileName,'public');
+
+            $url = asset('media/' . $fileName);
+            return response()->json(['file' => $fileName,
+            'url' => $url]);
+        }
+        exit();
     }
 }
