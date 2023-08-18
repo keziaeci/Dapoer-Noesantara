@@ -31,7 +31,7 @@ class SocialiteController extends Controller
                     'password' => null,
                     'google_id' => $user->id,
                     'social_type' => 'google'
-                ]); 
+                ]);
                 
                 Profile::create([
                     'id' => fake()->unique()->uuid(),
@@ -41,7 +41,7 @@ class SocialiteController extends Controller
 
                 Auth::login($newUser);
                 return redirect()->route('post-homepage');
-            }    
+            }
         } catch (\Throwable $th) {
             throw $th;
         }

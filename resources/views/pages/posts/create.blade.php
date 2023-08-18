@@ -1,5 +1,6 @@
 <x-app-layout>
     @push('css')
+    <link rel="stylesheet" href="{{ asset('assets/css/select.css') }}">
     @endpush
     <div class="flex m-10 items-center">
         <div class="flex-1">
@@ -7,9 +8,9 @@
         </div>
         <div class="avatar">
             <div class="w-10 rounded-full">
-                <img src="{{ Auth::user()->profile->image }}" />
+                <img src="{{ Auth::user()->profile->image }}" alt="" />
             </div>
-        </div>  
+        </div>
     </div>
 
     {{-- <div class=""> --}}
@@ -24,14 +25,38 @@
                 <input type="text" name="title" placeholder="Type here" class="input bg-inherit input-bordered w-full max-w-xs" />
             </div>
             
-            <select class="multi-select" name="categories_id[]" multiple="multiple">
-                @foreach ($categories as $c)
-                    <option value="{{ $c->id }}">{{ $c->name }}</option>
-                @endforeach
-            </select>    
+            <div class="form-control mb-5">
+                <label class="label">
+                    <span class="label-text">Tulis</span>
+                </label>
+                <textarea name="editor" id="editor" placeholder="Bagi resepmu...">
+                </textarea>
+            </div>
 
-            <textarea name="body" id="editor" placeholder="Bagi resepmu...">
-            </textarea>
+            <div class="flex h-auto w-80">
+                <div class="w-72 lg:w-96 max-w-lg">
+                    <div class="shadow-drop-center mt-8">
+                        <div class="mb-4">
+                            <label class="block text-gray-700 dark:text-gray-400 text-md font-bold mb-2" for="pair">
+                                Choose categories:
+                            </label>
+                            <select
+                                name="categories[]"
+                                class="js-example-basic-multiple" style="width: 100%"
+                                data-placeholder="Select one or more cities..."
+                                autocomplete="on"
+                                data-allow-clear="false"
+                                multiple="multiple"
+                                title="Select city...">
+                                @foreach ($categories as $cat)
+                                    
+                                <option>{{ $cat->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <button class="btn btn-ghost" type="submit">Upload</button>
 
@@ -41,8 +66,7 @@
     {{-- </div> --}}
 
     @push('js')
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
+
     <script>
         $(document).ready(function() {
             $('.js-example-basic-multiple').select2();
@@ -50,7 +74,11 @@
     </script>
     <script>
         ClassicEditor
-            .create( document.querySelector( '#editor' ) )
+            .create( document.querySelector( '#editor' ), {
+                ckfinder:{
+                    uploadUrl: `{{route('ckeditor.upload').'?_token='.csrf_token()}}`,
+                }
+            } )
             .catch( error => {
                 console.error( error );
             } );

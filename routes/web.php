@@ -3,6 +3,9 @@
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialiteController;
+use App\Http\Controllers\UserController;
+use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +19,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+// Route::get('/profile', function () {
+//     return view('pages.profile.index');
+// })->name('profile');
 
 Route::get('/login', function () {
     return view('login');
@@ -42,13 +49,12 @@ Route::controller(SocialiteController::class)->group(function () {
     Route::get('/callback/google' , 'googleCallback')->name('google-callback');
 });
 
-// Route::controller(ProfileController::class)->group(function (){
+Route::controller(ProfileController::class)->group(function () {
+    Route::get('/profile', 'index')->name('profile')->middleware('auth');
+});
 
-//     Route::middleware('auth')->group(function () {
-//         Route::get('/profile' , 'index')->name('profile');
-//     });
+// Route::controller(UserController::class)->group(function () {
+//     Route::get('/profile', 'index')->name('profile')->middleware('auth');
 // });
 
-Route::controller(ProfileController::class)->group(function() {
-    Route::get('/profile' , 'index')->name('profile');
-});
+// Route::get('/profile' , [UserController::class, 'index'])->name('profile');
