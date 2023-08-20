@@ -11,10 +11,11 @@
             <div class="dropdown dropdown-end">
                 <label tabindex="0" class="btn btn-ghost btn-circle avatar">
                     <div class="w-14 rounded-full">
-                        <img src="{{ Auth::user()->profile->image }}" />
+                        <img src="{{ Auth::user()->profile->image }}" alt="" />
                     </div>
                 </label>
-                <ul tabindex="0" class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
+                <ul tabindex="0" class="mt-3 z-[1] p-2 shadow
+                menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
                     <li>
                         <a href="{{ url('/profile') }}" class="justify-between">
                         Profile
@@ -39,25 +40,32 @@
                     <a href="" class="link-hover hover:text-gray-50">See more -></a>
                 </div>
             </div>
-
-            <div class="mt-5">
-                <div class="card w-56 bg-base-100 shadow-xl">
-                    <figure class="px-3 pt-2">
-                        <img src="https://source.unsplash.com/1200x1000?food" class="rounded-xl" />
-                    </figure>
-                    <div class="card-body">
-                        <h2 class="card-title">
-                            Shoes!
-                            <div class="badge badge-secondary">NEW</div>
-                        </h2>
-                        <p>If a dog chews shoes whose shoes does he choose?</p>
-                        <div class="card-actions justify-end">
-                            <div class="badge badge-outline">Fashion</div>
-                            <div class="badge badge-outline">Products</div>
+            {{-- {{ $posts }} --}}
+            <div class="mt-5 lg:flex gap-2">
+                @foreach ($posts as $post)
+                <a href="{{ route('post-detail', $post->id) }}">
+                    <div class="card lg:w-56 bg-base-100 shadow-xl">
+                        <figure class="px-3 pt-2">
+                            <img src="https://source.unsplash.com/1200x1000?food" class="rounded-xl" alt="" />
+                        </figure>
+                        <div class="card-body">
+                            <h2 class="card-title">
+                                {{ $post->title }}
+                                <div class="badge badge-secondary">NEW</div>
+                            </h2>
+                            <p>If a dog chews shoes whose shoes does he choose?</p>
+                            <div class="card-actions justify-end">
+                                @foreach ($post->categories as $c)
+                                <div class="badge badge-outline">{{ $c->name }}</div>
+                                    
+                                @endforeach
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
+                @endforeach
             </div>
+
         </div>
 
         <div class="m-5">

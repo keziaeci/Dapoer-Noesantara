@@ -20,22 +20,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-// Route::get('/profile', function () {
-//     return view('pages.profile.index');
-// })->name('profile');
+
 
 Route::get('/login', function () {
     return view('login');
 })->name('login')->middleware('guest');
 
-// Route::get('/', function () {
-//     return view('pages.index');
-// })->middleware('auth');
 
 Route::controller(PostController::class)->group(function () {
     
     Route::middleware('auth')->group(function () {
         Route::get('/' , 'index')->name('post-homepage');
+        Route::get('/posts/{post}' , 'show')->name('post-detail');
         Route::get('/post/create' , 'create')->name('post-create');
         Route::post('/post/create' , 'store')->name('post-store');
         Route::post('/post/image/upload' , 'ckimageUploader')->name('ckeditor.upload');
@@ -52,9 +48,3 @@ Route::controller(SocialiteController::class)->group(function () {
 Route::controller(ProfileController::class)->group(function () {
     Route::get('/profile', 'index')->name('profile')->middleware('auth');
 });
-
-// Route::controller(UserController::class)->group(function () {
-//     Route::get('/profile', 'index')->name('profile')->middleware('auth');
-// });
-
-// Route::get('/profile' , [UserController::class, 'index'])->name('profile');

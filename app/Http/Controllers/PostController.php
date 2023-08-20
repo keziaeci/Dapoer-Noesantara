@@ -7,6 +7,7 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Category;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,15 +19,10 @@ class PostController extends Controller
     public function index()
     {
         return view('pages.posts.index', [
-            // 'user' => Auth::user()
+            'posts' => Post::latest()->get()
         ]);
     }
 
-
-    public function anu()
-    {
-        return view('pages.profile.index');
-    }
     /**
      * Show the form for creating a new resource.
      */
@@ -40,9 +36,19 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePostRequest $request)
+    public function store(StorePostRequest $request): RedirectResponse
     {
-        dd($request);
+        $validatedData = $request->validated();
+
+        $post = Post::create([
+            'user_id' => Auth::user()->id,
+            'body' => $validatedData['body'],
+            'title' => $validatedData['title']
+        ]);
+
+        $post->categories()->attach($validatedData['categories_id']);
+        return redirect()->route('post-homepage');
+
     }
 
     /**
@@ -50,7 +56,9 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('',[
+            'post' => $post
+        ]);
     }
 
     /**
@@ -78,29 +86,16 @@ class PostController extends Controller
     }
 
     function ckimageUploader(Request $request) : JsonResponse  {
-        // if ($request->hasFile('upload')) {
-        //     $originName = $request->file('upload')->getClientOriginalName();
-        //     $fileName = pathinfo($originName, PATHINFO_FILENAME);
-        //     $extension = $request->file('upload')->getClientOriginalExtension();
-        //     $fileName = $fileName . '_' . time() . '.' . $extension;
-        //     $request->file('upload')->storePubliclyAs('media',$fileName,'public');
-
-        //     $url = asset('media/' . $fileName);
-        //     return response()->json(['file' => $fileName,
-        //     'url' => $url]);
-        // }
-        // exit();
-
         if ($request->hasFile('upload')) {
             $originName = $request->file('upload')->getClientOriginalName();
             $fileName = pathinfo($originName, PATHINFO_FILENAME);
             $extension = $request->file('upload')->getClientOriginalExtension();
             $fileName = $fileName . '_' . time() . '.' . $extension;
-      
+            
             $request->file('upload')->move(public_path('media'), $fileName);
-      
+            
             $url = asset('media/' . $fileName);
-  
+            
             return response()->json(['fileName' => $fileName, 'uploaded'=> 1, 'url' => $url]);
         }
     }

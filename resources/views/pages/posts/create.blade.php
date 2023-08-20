@@ -22,14 +22,15 @@
                 <label class="label">
                     <span class="label-text">Mau dikasi judul apa?</span>
                 </label>
-                <input type="text" name="title" placeholder="Type here" class="input bg-inherit input-bordered w-full max-w-xs" />
+                <input type="text" name="title" placeholder="Type here"
+                class="input bg-inherit input-bordered w-full max-w-xs" />
             </div>
             
             <div class="form-control mb-5">
                 <label class="label">
                     <span class="label-text">Tulis</span>
                 </label>
-                <textarea name="editor" id="editor" placeholder="Bagi resepmu...">
+                <textarea name="body" id="editor" placeholder="Bagi resepmu...">
                 </textarea>
             </div>
 
@@ -41,16 +42,16 @@
                                 Choose categories:
                             </label>
                             <select
-                                name="categories[]"
+                                name="categories_id[]"
                                 class="js-example-basic-multiple" style="width: 100%"
                                 data-placeholder="Select one or more cities..."
                                 autocomplete="on"
                                 data-allow-clear="false"
                                 multiple="multiple"
                                 title="Select city...">
-                                @foreach ($categories as $cat)
+                                @foreach ($categories as $category)
                                     
-                                <option>{{ $cat->name }}</option>
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
                                 @endforeach
                             </select>
                         </div>

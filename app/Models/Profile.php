@@ -12,7 +12,7 @@ class Profile extends Model
 {
     use HasFactory, Uuids;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
     // protected $fillable = [
     //     'id',
     //     'user_id',
