@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SocialiteController;
@@ -33,12 +35,17 @@ Route::controller(PostController::class)->group(function () {
         Route::get('/' , 'index')->name('post-homepage');
         Route::get('/posts/{post}' , 'show')->name('post-detail');
         Route::get('/post/create' , 'create')->name('post-create');
-        Route::post('/post/create' , 'store')->name('post-store');
+        Route::post('/post/store' , 'store')->name('post-store');
         Route::post('/post/image/upload' , 'ckimageUploader')->name('ckeditor.upload');
 
     });
 
 });
+
+Route::controller(CategoryController::class)->group(function () {
+    Route::get('/categories/{category}', 'show')->name('categories');
+});
+
 
 Route::controller(SocialiteController::class)->group(function () {
     Route::get('/auth/google' , 'redirectToGoogle')->name('google-auth')->middleware('guest');
@@ -47,4 +54,8 @@ Route::controller(SocialiteController::class)->group(function () {
 
 Route::controller(ProfileController::class)->group(function () {
     Route::get('/profile', 'index')->name('profile')->middleware('auth');
+});
+
+Route::controller(CommentController::class)->group(function () {
+    Route::post('/posts/{post}/comment' , 'store')->name('comment-store');
 });

@@ -78,7 +78,11 @@
             .create( document.querySelector( '#editor' ), {
                 ckfinder:{
                     uploadUrl: `{{route('ckeditor.upload').'?_token='.csrf_token()}}`,
-                }
+                },
+                mediaEmbed: {
+                        previewsInData:true
+                    },
+                    
             } )
             .catch( error => {
                 console.error( error );

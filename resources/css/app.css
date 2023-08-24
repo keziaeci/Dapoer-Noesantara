@@ -5,12 +5,53 @@
 
 :root {
     background:  #d1d5db;
+    font-family:Figtree, sans-serif;font-feature-settings:normal;
 }
-
+ul {
+    list-style-type: disc;
+}
+ol {
+    list-style-type: decimal;
+}
 .ck.ck-editor__editable_inline {
     padding: 0px 30px;
 }
 
+.image {
+    position: relative;
+    clear: both;
+    display: table;
+    margin: 0.9em auto;
+    min-width: 50px;
+    text-align: center;
+}
+.image-style-side {
+    float: right;
+    margin-left: 1.5rem;
+    max-width: 50%;
+}
+
+figcaption {
+    /* background-color: var(--ck-color-image-caption-background); */
+    caption-side: bottom;
+    color: gray;
+    display: table-caption;
+    font-size: .75em;
+    outline-offset: -1px;
+    padding: 0.6em;
+    word-break: break-word;
+}
+
+blockquote {
+    /* background: gray; */
+    border-left: 5px solid ;
+    font-style: italic;
+    margin-left: 0;
+    margin-right: 0;
+    overflow: hidden;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+}
 ::selection {
     background: pink;
     color: black;

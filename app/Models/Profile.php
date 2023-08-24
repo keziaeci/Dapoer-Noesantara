@@ -13,12 +13,6 @@ class Profile extends Model
     use HasFactory, Uuids;
 
     protected $guarded = ['id'];
-    // protected $fillable = [
-    //     'id',
-    //     'user_id',
-    //     'image'
-    // ];
-
     function user() : BelongsTo {
         return $this->belongsTo(User::class);
     }

@@ -19,7 +19,8 @@ class PostController extends Controller
     public function index()
     {
         return view('pages.posts.index', [
-            'posts' => Post::latest()->get()
+            'posts' => Post::latest()->limit(6)->get(),
+            'categories' => Category::all()
         ]);
     }
 
@@ -56,7 +57,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('',[
+        return view('pages.posts.detail',[
             'post' => $post
         ]);
     }
@@ -85,7 +86,7 @@ class PostController extends Controller
         //
     }
 
-    function ckimageUploader(Request $request) : JsonResponse  {
+    public function ckimageUploader(Request $request) : JsonResponse  {
         if ($request->hasFile('upload')) {
             $originName = $request->file('upload')->getClientOriginalName();
             $fileName = pathinfo($originName, PATHINFO_FILENAME);
