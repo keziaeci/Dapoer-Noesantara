@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Category;
+use App\Models\Comment;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -44,6 +45,7 @@ class PostController extends Controller
         $post = Post::create([
             'user_id' => Auth::user()->id,
             'body' => $validatedData['body'],
+            'description' => $validatedData['description'],
             'title' => $validatedData['title']
         ]);
 
@@ -58,7 +60,7 @@ class PostController extends Controller
     public function show(Post $post)
     {
         return view('pages.posts.detail',[
-            'post' => $post
+            'post' => $post,
         ]);
     }
 
@@ -67,7 +69,10 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('pages.posts.edit',[
+            'post' => $post,
+            'categories' => Category::all()
+        ]);
     }
 
     /**
@@ -75,7 +80,14 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        $request->validated();
+        $post->update([
+            'body' => $request->body,
+            'description' => $request->description,
+            'title' => $request->title,
+        ]);
+
+        dd($post);
     }
 
     /**
@@ -83,7 +95,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        // dd($post);
+        $post->delete();
+        return redirect()->route('post-homepage');
     }
 
     public function ckimageUploader(Request $request) : JsonResponse  {

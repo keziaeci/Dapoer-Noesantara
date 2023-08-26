@@ -4,7 +4,9 @@
         {{-- top bar --}}
         <div class="flex items-center">
             <div class="flex-1 lg:flex lg:justify-center">
-                <input type="text" placeholder="Type here" class="input lg:w-96 max-w-xs" />
+                <input type="text" placeholder="Type here" class="focus:outline-none focus:underline
+                input bg-transparent  p-0 mt-3 w-full max-w-xs" />
+                {{-- <input type="text" placeholder="Type here" class="input lg:w-96 max-w-xs" /> --}}
 
             </div>
             
@@ -44,16 +46,17 @@
             <div class="mt-5 lg:flex gap-2">
                 @foreach ($posts as $post)
                 <a href="{{ route('post-detail', $post->id) }}">
-                    <div class="card lg:w-56 bg-base-100 shadow-xl">
-                        <figure class="px-3 pt-2">
-                            <img src="https://source.unsplash.com/1200x1000?food" class="rounded-xl" alt="" />
+                    <div class="card lg:w-56 border rounded-none shadow-xl">
+                        <figure class="px-2 pt-2">
+                            <img src="https://source.unsplash.com/1200x1000?food" class="" alt="" />
                         </figure>
-                        <div class="card-body">
-                            <h2 class="card-title">
+                        <div class="card-body m-0">
+                            <h2 class="card-title text-white">
                                 {{ $post->title }}
-                                <div class="badge badge-secondary">NEW</div>
                             </h2>
-                            <p>If a dog chews shoes whose shoes does he choose?</p>
+                            <p class="text-pink-600 p-0 m-0 font-thin text-xs">
+                                {{ $post->created_at->diffForHumans() }}</p>
+                            <p>{{ $post->description }}</p>
                             <div class="card-actions justify-end">
                                 @foreach ($post->categories as $c)
                                 <div class="badge badge-outline">{{ $c->name }}</div>

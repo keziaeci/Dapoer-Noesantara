@@ -50,4 +50,8 @@ class User extends Authenticatable
     function profile() : HasOne {
         return $this->hasOne(Profile::class);
     }
+
+    function comments() : HasMany {
+        return $this->hasMany(Comment::class);
+    }
 }

@@ -1,4 +1,5 @@
 <x-app-layout>
+
     @push('css')
     <link rel="stylesheet" href="{{ asset('assets/css/select.css') }}">
     @endpush
@@ -14,15 +15,15 @@
     </div>
 
     {{-- <div class=""> --}}
-        <form class="m-10" action="{{ route('post-store') }}" method="POST" enctype="multipart/form-data">
+        <form class="m-10" action="{{ route('post-update' , $post->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
-            @method('POST')
+            @method('patch')
 
             <div class="form-control w-full max-w-xs mb-5">
                 <label class="label">
                     <span class="label-text">Mau dikasi judul apa?</span>
                 </label>
-                <input type="text" name="title" placeholder="Type here"
+                <input type="text" name="title" value="{{ $post->title }}" placeholder="Type here"
                 class="focus:outline-none focus:underline
                         input bg-transparent w-full max-w-xs" />
             </div>
@@ -31,7 +32,7 @@
                 <label class="label">
                     <span class="label-text">Deskripsi</span>
                 </label>
-                <input type="text" name="description" placeholder="Type here"
+                <input type="text" name="description" value="{{ $post->description }}" placeholder="Type here"
                 class="focus:outline-none focus:underline
                 input bg-transparent w-full max-w-xs" />
             </div>
@@ -40,9 +41,11 @@
                 <label class="label">
                     <span class="label-text">Tulis</span>
                 </label>
-                <textarea name="body" id="editor" placeholder="Bagi resepmu...">
+                <textarea name="body" id="editor"  placeholder="Bagi resepmu...">
+                    {{ $post->body }}
                 </textarea>
             </div>
+
 
             <div class="flex h-auto w-80">
                 <div class="w-72 lg:w-96 max-w-lg">
@@ -60,8 +63,13 @@
                                 multiple="multiple"
                                 title="Select city...">
                                 @foreach ($categories as $category)
-                                    
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @foreach ($post->categories as $c)
+                                        @if ($c->id === $category->id)
+                                        <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                                        @else
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        @endif
+                                    @endforeach
                                 @endforeach
                             </select>
                         </div>
@@ -100,4 +108,5 @@
     </script>
 
     @endpush
+    
 </x-app-layout>

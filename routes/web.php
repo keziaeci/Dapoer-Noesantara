@@ -35,6 +35,10 @@ Route::controller(PostController::class)->group(function () {
         Route::get('/' , 'index')->name('post-homepage');
         Route::get('/posts/{post}' , 'show')->name('post-detail');
         Route::get('/post/create' , 'create')->name('post-create');
+        Route::get('/post/{post}/edit' , 'edit')->name('post-edit');
+
+        Route::delete('/post/{post}' , 'destroy')->name('post-delete');
+        Route::patch('/post/{post}/update' , 'update')->name('post-update');
         Route::post('/post/store' , 'store')->name('post-store');
         Route::post('/post/image/upload' , 'ckimageUploader')->name('ckeditor.upload');
 
